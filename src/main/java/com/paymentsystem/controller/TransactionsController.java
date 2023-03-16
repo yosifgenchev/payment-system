@@ -1,5 +1,6 @@
 package com.paymentsystem.controller;
 
+import com.paymentsystem.dto.MerchantDTO;
 import com.paymentsystem.dto.TransactionDTO;
 import com.paymentsystem.model.Merchant;
 import com.paymentsystem.model.Transactable;
@@ -29,6 +30,10 @@ public class TransactionsController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> createTransaction(@RequestBody TransactionDTO transactionDTO) {
         Merchant merchant = merchantService.findById(transactionDTO.getMerchant_id());
+
+        if (merchant.getStatus() != Merchant.Status.active) {
+            return ResponseEntity.badRequest().build();
+        }
 
         Transaction t = transactableService.findTransactionByUuid(transactionDTO.getReferred_transaction_uuid());
 

@@ -1,5 +1,6 @@
 package com.paymentsystem.controller;
 
+import com.paymentsystem.dto.MerchantDTO;
 import com.paymentsystem.model.Merchant;
 import com.paymentsystem.service.MerchantService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +23,9 @@ public class MerchantsController {
     private final MerchantService merchantService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> create(@RequestBody Merchant merchant) {
+    public ResponseEntity<HttpStatus> create(@RequestBody MerchantDTO merchantDTO) {
+
+        Merchant merchant = merchantService.convertMerchantDTOtoMerchant(merchantDTO);
 
         merchantService.save(merchant);
 

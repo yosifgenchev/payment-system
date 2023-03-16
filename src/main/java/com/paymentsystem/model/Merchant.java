@@ -11,19 +11,26 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "merchant")
 public class Merchant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -43,6 +50,7 @@ public class Merchant {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "merchant_id")
+    @ToString.Exclude
     private Set<Transaction> transactions = new HashSet<>();
 
     public void addTransaction(Transaction transaction) {
@@ -65,7 +73,7 @@ public class Merchant {
         totalTransactionSum = result;
     }
 
-    enum Status {
+    public enum Status {
         active,
         inactive
     }
@@ -83,5 +91,16 @@ public class Merchant {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Merchant merchant = (Merchant) o;
+        return id == merchant.id;
+    }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }

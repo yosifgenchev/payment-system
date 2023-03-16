@@ -17,7 +17,6 @@ public class TransactionDTO {
 
     private String status;
 
-
     private String referred_transaction_uuid;
 
     private long merchant_id;
