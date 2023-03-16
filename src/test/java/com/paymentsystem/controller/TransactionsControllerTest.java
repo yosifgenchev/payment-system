@@ -43,6 +43,7 @@ class TransactionsControllerTest {
 
         Merchant merchant = new Merchant();
         merchant.setId(1L);
+        merchant.setStatus(Merchant.Status.active);
 
         ChargeTransaction chargeTransaction = new ChargeTransaction();
 
