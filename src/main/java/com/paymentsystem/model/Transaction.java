@@ -3,23 +3,35 @@ package com.paymentsystem.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import org.hibernate.Hibernate;
 
+import java.util.Objects;
 import java.util.UUID;
 
+@Getter
+@Setter
+@RequiredArgsConstructor
 @Entity
 @Table(name = "transaction")
-public class Transaction {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Transaction implements Transactable {
 
     @Id
     @Column(name = "uuid")
     private final String uuid = UUID.randomUUID().toString();
 
-    @Min(1)
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount")
     private double amount;
 
     @Email(message = "Email should be valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
@@ -30,25 +42,46 @@ public class Transaction {
     @Column(name = "customer_phone")
     private String customerPhone;
 
-    @NotNull
     @Column(name = "status", nullable = false)
-    private Status status;
+    private String status;
 
-    public Transaction() {
+    @OneToOne(targetEntity = Transaction.class)
+    @JoinColumn(name = "reference_id")
+    private Transaction referredTransaction;
 
-    }
+    @ManyToOne
+    private Merchant merchant;
 
-    public Transaction(double amount, String customerEmail, String customerPhone, Status status) {
+    public Transaction(Transaction referredTransaction, double amount, String customerEmail, String customerPhone, String status) {
+        this.referredTransaction = referredTransaction;
         this.amount = amount;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
         this.status = status;
     }
 
-    enum Status {
-        approved,
-        reversed,
-        refunded,
-        error;
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "uuid='" + uuid + '\'' +
+                ", amount=" + amount +
+                ", customerEmail='" + customerEmail + '\'' +
+                ", customerPhone='" + customerPhone + '\'' +
+                ", status='" + status + '\'' +
+                ", referredTransaction=" + referredTransaction +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Transaction that = (Transaction) o;
+        return uuid != null && Objects.equals(uuid, that.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }
