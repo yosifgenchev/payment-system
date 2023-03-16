@@ -40,6 +40,7 @@ class TransactionsControllerTest {
         TransactionDTO transactionDTO = new TransactionDTO();
         transactionDTO.setMerchant_id(1L);
         transactionDTO.setReferred_transaction_uuid("abc123");
+        transactionDTO.setDtype("AuthorizeTransaction");
 
         Merchant merchant = new Merchant();
         merchant.setId(1L);
@@ -54,7 +55,7 @@ class TransactionsControllerTest {
 
         ResponseEntity<HttpStatus> response = paymentsController.createTransaction(transactionDTO);
 
-        assert response.getStatusCode().equals(HttpStatus.OK);
+        assert response.getStatusCode().equals(HttpStatus.BAD_REQUEST);
     }
 
     @Test

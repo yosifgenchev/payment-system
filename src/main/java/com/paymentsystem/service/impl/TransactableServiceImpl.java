@@ -5,6 +5,7 @@ import com.paymentsystem.factory.AuthorizeTransactionFactory;
 import com.paymentsystem.factory.ChargeTransactionFactory;
 import com.paymentsystem.factory.RefundTransactionFactory;
 import com.paymentsystem.factory.ReversalTransactionFactory;
+import com.paymentsystem.factory.TransactableFactory;
 import com.paymentsystem.model.Transactable;
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.repository.TransactionRepository;
@@ -19,31 +20,38 @@ import java.util.List;
 public class TransactableServiceImpl implements TransactableService {
 
     private final TransactionRepository transactableRepository;
+    @Override
+    public Transaction getTransactionByReferredTransactionUUID(String referred_transaction_uuid) {
+        return referred_transaction_uuid != null ? findTransactionByUuid(referred_transaction_uuid) : null;
+    }
 
     @Override
     public Transactable convertTransactableDTOtoTransactable(TransactionDTO transactionDTO, Transaction t) {
 
         Transactable transactable = null;
 
+        TransactableFactory factory = null;
+
         if (transactionDTO.getDtype() != null) {
             switch (transactionDTO.getDtype()) {
                 case "AuthorizeTransaction" -> {
-                    AuthorizeTransactionFactory authorizeTransactionFactory = new AuthorizeTransactionFactory();
-                    transactable = authorizeTransactionFactory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
+                    factory = new AuthorizeTransactionFactory();
                 }
                 case "ChargeTransaction" -> {
-                    ChargeTransactionFactory chargeTransactionFactory = new ChargeTransactionFactory();
-                    transactable = chargeTransactionFactory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
+                    factory = new ChargeTransactionFactory();
                 }
                 case "RefundTransaction" -> {
-                    RefundTransactionFactory refundTransactionFactory = new RefundTransactionFactory();
-                    transactable = refundTransactionFactory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
+                    factory = new RefundTransactionFactory();
                 }
                 case "ReversalTransaction" -> {
-                    ReversalTransactionFactory reversalTransactionFactory = new ReversalTransactionFactory();
-                    transactable = reversalTransactionFactory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
+                    factory = new ReversalTransactionFactory();
                 }
             }
+
+            if (factory != null) {
+                transactable = factory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
+            }
+
         }
         return transactable;
     }

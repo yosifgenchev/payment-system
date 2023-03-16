@@ -31,13 +31,21 @@ public class TransactionsController {
     public ResponseEntity<HttpStatus> createTransaction(@RequestBody TransactionDTO transactionDTO) {
         Merchant merchant = merchantService.findById(transactionDTO.getMerchant_id());
 
-        if (merchant.getStatus() != Merchant.Status.active) {
+        if (merchant.getStatus() != Merchant.Status.active || transactionDTO.getDtype() == null) {
             return ResponseEntity.badRequest().build();
         }
 
-        Transaction t = transactableService.findTransactionByUuid(transactionDTO.getReferred_transaction_uuid());
+        Transaction t = transactableService.getTransactionByReferredTransactionUUID(transactionDTO.getReferred_transaction_uuid());
+
+        if (t == null && !transactionDTO.getDtype().equals("AuthorizeTransaction")) {
+            return ResponseEntity.badRequest().build();
+        }
 
         Transactable transactable = transactableService.convertTransactableDTOtoTransactable(transactionDTO, t);
+
+        if (transactable == null) {
+            return ResponseEntity.badRequest().build();
+        }
 
         merchant.addTransaction((Transaction) transactable);
 
