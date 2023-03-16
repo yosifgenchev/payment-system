@@ -32,7 +32,8 @@ CREATE TABLE payment_system.merchant
     PRIMARY KEY (id)
 );
 
-
+ALTER TABLE IF EXISTS payment_system.merchant
+    ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY;
 
 CREATE TABLE payment_system.merchant_transactions
 (
