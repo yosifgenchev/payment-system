@@ -1,0 +1,34 @@
+/*
+ * Common dependencies
+ */
+
+ext {
+    modules = [
+        org_postgresql: [
+                ["org.postgresql:postgresql"]
+        ],
+        org_lombok: [
+                ["org.projectlombok:lombok"]
+        ],
+        org_openapitools: [
+                [ group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1' ]
+        ],
+        javax: [
+                [ group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2' ],
+                [ group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2' ],
+                [ group: 'javax.servlet', name: 'servlet-api', version: '2.5' ],
+                [ group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' ],
+                [ group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8' ],
+                [ group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.8' ]
+        ],
+    ]
+
+    test_modules = [
+            org_springframework_starter_test: [
+                    [ 'org.springframework.boot:spring-boot-starter-test']
+            ],
+            org_springframework_security_test: [
+                    [ 'org.springframework.security:spring-security-test' ]
+            ]
+    ]
+}
