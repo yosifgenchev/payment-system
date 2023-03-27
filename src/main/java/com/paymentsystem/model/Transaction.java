@@ -18,6 +18,7 @@ import lombok.Setter;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.UuidGenerator;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 @Getter
@@ -35,7 +36,7 @@ public class Transaction implements Transactable {
     private String uuid;
 
     @Column(name = "amount")
-    private double amount;
+    private BigDecimal amount;
 
     @Email(message = "Email should be valid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     @NotNull
@@ -56,7 +57,7 @@ public class Transaction implements Transactable {
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
 
-    public Transaction(Transaction referredTransaction, double amount, String customerEmail, String customerPhone, String status) {
+    public Transaction(Transaction referredTransaction, BigDecimal amount, String customerEmail, String customerPhone, String status) {
         this.referredTransaction = referredTransaction;
         this.amount = amount;
         this.customerEmail = customerEmail;

@@ -1,8 +1,10 @@
 package com.paymentsystem.model;
 
+import java.math.BigDecimal;
+
 public interface Transactable {
 
-    double getAmount();
+    BigDecimal getAmount();
 
     String getStatus();
 

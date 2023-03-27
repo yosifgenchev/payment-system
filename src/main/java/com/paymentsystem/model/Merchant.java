@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class Merchant {
     private Status status;
 
     @Column(name = "total_transaction_sum", nullable = false)
-    private double totalTransactionSum;
+    private BigDecimal totalTransactionSum;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "merchant")
     @ToString.Exclude
@@ -65,9 +66,9 @@ public class Merchant {
     }
 
     private void changeTotalTransactionSum() {
-        double result = 0;
+        BigDecimal result = BigDecimal.ZERO;
         for (Transactable t : transactions) {
-            result += t.getAmount();
+            result = result.add(t.getAmount());
         }
         totalTransactionSum = result;
     }
