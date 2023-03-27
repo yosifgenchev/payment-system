@@ -1,8 +1,10 @@
 package com.paymentsystem.model;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 @Entity
+@DiscriminatorValue("REFUND")
 public class RefundTransaction extends Transaction {
 
     public RefundTransaction(Transactable referredTransaction, String customerEmail, String customerPhone) {
@@ -15,5 +17,10 @@ public class RefundTransaction extends Transaction {
 
     public RefundTransaction() {
 
+    }
+
+    @Override
+    public TransactionType getType() {
+        return TransactionType.REFUND;
     }
 }

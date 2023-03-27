@@ -1,10 +1,12 @@
 package com.paymentsystem.model;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 
 import java.math.BigDecimal;
 
 @Entity
+@DiscriminatorValue("CHARGE")
 public class ChargeTransaction extends Transaction {
 
     public ChargeTransaction(Transaction referredTransaction, BigDecimal amount, String customerEmail, String customerPhone) {
@@ -16,5 +18,10 @@ public class ChargeTransaction extends Transaction {
 
     public ChargeTransaction() {
 
+    }
+
+    @Override
+    public TransactionType getType() {
+        return TransactionType.CHARGE;
     }
 }

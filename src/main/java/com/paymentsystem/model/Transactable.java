@@ -14,4 +14,6 @@ public interface Transactable {
 
     void setCustomerEmail(String customerEmail);
 
+    TransactionType getType();
+
 }

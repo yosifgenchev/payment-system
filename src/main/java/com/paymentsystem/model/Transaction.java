@@ -1,7 +1,11 @@
 package com.paymentsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
@@ -27,7 +31,15 @@ import java.util.Objects;
 @Entity
 @Table(name = "transaction")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Transaction implements Transactable {
+@DiscriminatorColumn(name = "type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
+@JsonSubTypes({@JsonSubTypes.Type(value = AuthorizeTransaction.class, name = "AUTHORIZE"),
+        @JsonSubTypes.Type(value = ChargeTransaction.class, name = "CHARGE"),
+        @JsonSubTypes.Type(value = RefundTransaction.class, name = "REFUND"),
+        @JsonSubTypes.Type(value = ReversalTransaction.class, name = "REVERSAL")
+
+})
+public abstract class Transaction implements Transactable {
 
     @Id
     @Column(name = "uuid")
@@ -53,7 +65,7 @@ public class Transaction implements Transactable {
     @JoinColumn(name = "reference_id")
     private Transaction referredTransaction;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
 
