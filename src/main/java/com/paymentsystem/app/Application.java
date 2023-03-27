@@ -1,5 +1,6 @@
 package com.paymentsystem.app;
 
+import com.paymentsystem.validation.MerchantDeletionValidator;
 import com.paymentsystem.validation.TransactionsValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,6 +21,7 @@ public class Application implements RepositoryRestConfigurer {
     public void configureValidatingRepositoryEventListener(
             ValidatingRepositoryEventListener v) {
         v.addValidator("beforeCreate", new TransactionsValidator());
+        v.addValidator("beforeDelete", new MerchantDeletionValidator());
     }
 
 }
