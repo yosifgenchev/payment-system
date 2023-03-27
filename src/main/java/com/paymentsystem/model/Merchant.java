@@ -48,8 +48,7 @@ public class Merchant {
     @Column(name = "total_transaction_sum", nullable = false)
     private double totalTransactionSum;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "merchant_id")
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "merchant")
     @ToString.Exclude
     private Set<Transaction> transactions = new HashSet<>();
 

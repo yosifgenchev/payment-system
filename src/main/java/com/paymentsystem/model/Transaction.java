@@ -2,6 +2,7 @@ package com.paymentsystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
@@ -15,9 +16,9 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.util.Objects;
-import java.util.UUID;
 
 @Getter
 @Setter
@@ -29,7 +30,9 @@ public class Transaction implements Transactable {
 
     @Id
     @Column(name = "uuid")
-    private final String uuid = UUID.randomUUID().toString();
+    @GeneratedValue
+    @UuidGenerator
+    private String uuid;
 
     @Column(name = "amount")
     private double amount;
@@ -50,6 +53,7 @@ public class Transaction implements Transactable {
     private Transaction referredTransaction;
 
     @ManyToOne
+    @JoinColumn(name = "merchant_id")
     private Merchant merchant;
 
     public Transaction(Transaction referredTransaction, double amount, String customerEmail, String customerPhone, String status) {
