@@ -18,37 +18,6 @@ public class TransactableServiceImpl implements TransactableService {
         return referred_transaction_uuid != null ? findTransactionByUuid(referred_transaction_uuid) : null;
     }
 
-//    @Override
-//    public Transactable convertTransactableDTOtoTransactable(TransactionDTO transactionDTO, Transaction t) {
-//
-//        Transactable transactable = null;
-//
-//        TransactableFactory factory = null;
-//
-//        if (transactionDTO.getDtype() != null) {
-//            switch (transactionDTO.getDtype()) {
-//                case "AuthorizeTransaction" -> {
-//                    factory = new AuthorizeTransactionFactory();
-//                }
-//                case "ChargeTransaction" -> {
-//                    factory = new ChargeTransactionFactory();
-//                }
-//                case "RefundTransaction" -> {
-//                    factory = new RefundTransactionFactory();
-//                }
-//                case "ReversalTransaction" -> {
-//                    factory = new ReversalTransactionFactory();
-//                }
-//            }
-//
-//            if (factory != null) {
-//                transactable = factory.createTransactable(t, transactionDTO.getCustomerEmail(), transactionDTO.getCustomerPhone(), transactionDTO.getAmount());
-//            }
-//
-//        }
-//        return transactable;
-//    }
-
     @Override
     public Transaction findTransactionByUuid(String uuid) {
         return transactableRepository.findTransactionByUuid(uuid).get();
@@ -57,5 +26,10 @@ public class TransactableServiceImpl implements TransactableService {
     @Override
     public List<Transaction> findAll() {
         return transactableRepository.findAll();
+    }
+
+    @Override
+    public void save(Transaction t) {
+        transactableRepository.save(t);
     }
 }

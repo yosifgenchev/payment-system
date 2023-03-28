@@ -8,9 +8,10 @@ public interface TransactableService {
 
     Transaction getTransactionByReferredTransactionUUID(String referred_transaction_uuid);
 
-//    Transactable convertTransactableDTOtoTransactable(TransactionDTO transactionDTO, Transaction t);
     Transaction findTransactionByUuid(String uuid);
 
     List<Transaction> findAll();
+
+    void save(Transaction t);
 
 }

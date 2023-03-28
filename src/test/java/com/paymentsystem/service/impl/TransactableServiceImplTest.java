@@ -1,8 +1,7 @@
 package com.paymentsystem.service.impl;
 
-import com.paymentsystem.dto.TransactionDTO;
-import com.paymentsystem.factory.ChargeTransactionFactory;
-import com.paymentsystem.model.Transactable;
+import com.paymentsystem.model.AuthorizeTransaction;
+import com.paymentsystem.model.ChargeTransaction;
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.repository.TransactionRepository;
 import com.paymentsystem.service.TransactableService;
@@ -17,7 +16,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 class TransactableServiceImplTest {
@@ -36,7 +34,7 @@ class TransactableServiceImplTest {
     @Test
     void testFindTransactionByUuid() {
         String uuid = "1234";
-        Transaction transactionMock = new Transaction();
+        Transaction transactionMock = new AuthorizeTransaction();
         when(transactionRepositoryMock.findTransactionByUuid(uuid)).thenReturn(Optional.of(transactionMock));
 
         Transaction transaction = transactableService.findTransactionByUuid(uuid);
@@ -47,8 +45,8 @@ class TransactableServiceImplTest {
 
     @Test
     void testFindAll() {
-        Transaction transaction1 = new Transaction();
-        Transaction transaction2 = new Transaction();
+        Transaction transaction1 = new AuthorizeTransaction();
+        Transaction transaction2 = new ChargeTransaction();
         when(transactionRepositoryMock.findAll()).thenReturn(List.of(transaction1, transaction2));
 
         List<Transaction> transactions = transactableService.findAll();
