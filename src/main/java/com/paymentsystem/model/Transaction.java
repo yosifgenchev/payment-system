@@ -63,14 +63,14 @@ public abstract class Transaction implements Transactable {
 
     @OneToOne(targetEntity = Transaction.class)
     @JoinColumn(name = "reference_id")
-    private Transaction referredTransaction;
+    private Transaction referencedTransaction;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     private Merchant merchant;
 
-    public Transaction(Transaction referredTransaction, BigDecimal amount, String customerEmail, String customerPhone, String status) {
-        this.referredTransaction = referredTransaction;
+    public Transaction(Transaction referencedTransaction, BigDecimal amount, String customerEmail, String customerPhone, String status) {
+        this.referencedTransaction = referencedTransaction;
         this.amount = amount;
         this.customerEmail = customerEmail;
         this.customerPhone = customerPhone;
@@ -85,7 +85,7 @@ public abstract class Transaction implements Transactable {
                 ", customerEmail='" + customerEmail + '\'' +
                 ", customerPhone='" + customerPhone + '\'' +
                 ", status='" + status + '\'' +
-                ", referredTransaction=" + referredTransaction +
+                ", referredTransaction=" + referencedTransaction +
                 '}';
     }
 
