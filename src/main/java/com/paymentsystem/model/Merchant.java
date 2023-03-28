@@ -19,6 +19,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -51,24 +53,43 @@ public class Merchant {
     @ToString.Exclude
     private Set<Transaction> transactions = new HashSet<>();
 
-    public void addTransaction(Transaction transaction) {
-        transactions.add(transaction);
-        transaction.setMerchant(this);
-        changeTotalTransactionSum();
+    public void updateTotalTransactionSum() {
+        totalTransactionSum = getChargeTransactionsAmount().subtract(getRefundTransactionsAmount());
     }
 
-    public void removeTransaction(Transaction transaction) {
-        transactions.remove(transaction);
-        transaction.setMerchant(null);
-        changeTotalTransactionSum();
+    public BigDecimal getChargeTransactionsAmount() {
+        return getTransactionsAmount(getApprovedChargeTransactions());
+
     }
 
-    private void changeTotalTransactionSum() {
+    public BigDecimal getRefundTransactionsAmount() {
+        return getTransactionsAmount(getApprovedRefundTransactions());
+    }
+
+    public BigDecimal getTransactionsAmount(Set<Transaction> transactions) {
         BigDecimal result = BigDecimal.ZERO;
-        for (Transactable t : transactions) {
+
+        for (Transaction t : transactions) {
             result = result.add(t.getAmount());
         }
-        totalTransactionSum = result;
+
+        return result;
+    }
+
+    Stream<Transaction> getApprovedTransactionsStream() {
+        return transactions.stream().filter(t -> t.getStatus().equals("approved"));
+    }
+
+    Set<Transaction> getApprovedChargeTransactions() {
+        return getTransactionsOfType(TransactionType.CHARGE);
+    }
+
+    Set<Transaction> getApprovedRefundTransactions() {
+        return getTransactionsOfType(TransactionType.REFUND);
+    }
+
+    Set<Transaction> getTransactionsOfType(final TransactionType type) {
+        return getApprovedTransactionsStream().filter(t -> t.getType() == type).collect(Collectors.toSet());
     }
 
     public enum Status {
