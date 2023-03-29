@@ -1,10 +1,12 @@
 package com.paymentsystem.app;
 
+import com.paymentsystem.handlers.TransactionEventHandler;
 import com.paymentsystem.validation.MerchantDeletionValidator;
 import com.paymentsystem.validation.TransactionsValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
@@ -22,6 +24,11 @@ public class Application implements RepositoryRestConfigurer {
             ValidatingRepositoryEventListener v) {
         v.addValidator("beforeCreate", new TransactionsValidator());
         v.addValidator("beforeDelete", new MerchantDeletionValidator());
+    }
+
+    @Bean
+    TransactionEventHandler transactionEventHandler() {
+        return new TransactionEventHandler();
     }
 
 }
