@@ -47,7 +47,7 @@ public class Merchant {
     private Status status;
 
     @Column(name = "total_transaction_sum", nullable = false)
-    private BigDecimal totalTransactionSum;
+    private BigDecimal totalTransactionSum = BigDecimal.ZERO;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "merchant")
     @ToString.Exclude

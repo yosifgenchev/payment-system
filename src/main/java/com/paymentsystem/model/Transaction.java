@@ -99,6 +99,6 @@ public abstract class Transaction implements Transactable {
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        return Objects.hash(uuid);
     }
 }
