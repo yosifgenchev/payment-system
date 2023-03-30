@@ -17,6 +17,7 @@
                         <thead>
                         <tr>
                             <th>UUID</th>
+                            <th>Type</th>
                             <th>Amount</th>
                             <th>Customer</th>
                             <th>Customer phone</th>
@@ -27,6 +28,7 @@
                         <tbody>
                         <tr th:each="transaction : ${transactions}">
                             <td th:text="${transaction.uuid}"></td>
+                            <td th:text="${transaction.type}"></td>
                             <td th:text="${transaction.amount}"></td>
                             <td th:text="${transaction.customerEmail}"></td>
                             <td th:text="${transaction.customerPhone}"></td>
