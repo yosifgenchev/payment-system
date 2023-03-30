@@ -100,13 +100,13 @@ POST /api/transactions
 ## Tasks to be done
 The following tasks fell of the scope and should be done in the future:
 
-- 1.1. Ensure you have merchant and admin user roles (UI)
-- 3. Inputs and tasks:
-  -- 3.1. Imports new merchants and admins from CSV (rake task)
-  -- 3.2. A background Job for deleting transactions older than an hour (cron job)
+- Ensure you have merchant and admin user roles (UI)
+- Inputs and tasks:
+  - Imports new merchants and admins from CSV (rake task)
+  - A background Job for deleting transactions older than an hour (cron job)
 
-- 4. Presentation:
-   -- 4.1. edit merchants
+- Presentation:
+  - edit merchants
 
 
 
