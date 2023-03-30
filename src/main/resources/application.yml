@@ -8,5 +8,8 @@ spring:
     properties.hibernate:
       format_sql: true
       generate_statistics: true
+  data:
+    rest:
+      base-path: /api
   liquibase:
     change-log: classpath:db/changelog-master.xml
