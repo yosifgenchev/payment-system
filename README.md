@@ -26,6 +26,10 @@ gradlew build
 gradlew check
 ```
 
+## API
+
+Spring Data REST is used for API management
+
 ## Merchants API
 
 Example
