@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div th:switch="${transactions}">
+                <h2 th:case="null">No transactions yet!</h2>
+                <div th:case="*">
+                    <h2>Transactions</h2>
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>UUID</th>
+                            <th>Amount</th>
+                            <th>Customer</th>
+                            <th>Customer phone</th>
+                            <th>Status</th>
+                            <th>Merchant</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="transaction : ${transactions}">
+                            <td th:text="${transaction.uuid}"></td>
+                            <td th:text="${transaction.amount}"></td>
+                            <td th:text="${transaction.customerEmail}"></td>
+                            <td th:text="${transaction.customerPhone}"></td>
+                            <td th:text="${transaction.status}"></td>
+                            <td th:text="${transaction.merchant}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+
+</html>
