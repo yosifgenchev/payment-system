@@ -51,6 +51,11 @@ GET /api/transactions
 
 POST /api/transactions
 
+#### TODO
+**The APIs can be improved by skipping for example setting the status of the transaction, because obviously it should be done on server side instead of setting it explicitly.**
+**Another thing to improve is to skip merchant whenever possible as it should be clear which customer is referred if the transaction is other than AUTHORIZE type.**
+**One last thing would be the amount of the REFUND transaction, because it should be taken from the CHARGE transaction to which the REFUND transaction refers.**
+
 - Authorize
 ```json
 {
@@ -58,7 +63,7 @@ POST /api/transactions
   "status":"approved",
   "customerEmail":"customerEmail@example.org",
   "type":"AUTHORIZE",
-  "merchant": "http://localhost:8080/merchants/1"
+  "merchant": "http://localhost:8080/merchants/<ID>"
 }
 ```
 
@@ -69,7 +74,7 @@ POST /api/transactions
   "status":"approved",
   "customerEmail":"customerEmail@example.org",
   "type":"CHARGE",
-  "merchant": "http://localhost:8080/merchants/1",
+  "merchant": "http://localhost:8080/merchants/<ID>",
   "referencedTransaction": "http://localhost:8080/api/authorizeTransaction/<UUID>"
 }
 ```
@@ -81,7 +86,7 @@ POST /api/transactions
     "status":"approved",
     "customerEmail":"customerEmail@example.org",
     "type":"REFUND",
-    "merchant": "http://localhost:8080/merchants/1",
+    "merchant": "http://localhost:8080/merchants/<ID>",
     "referencedTransaction": "http://localhost:8080/api/chargeTransaction/<UUID>"
 }
 ```
@@ -92,7 +97,7 @@ POST /api/transactions
     "status":"approved",
     "customerEmail":"customerEmail@example.org",
     "type":"REVERSAL",
-    "merchant": "http://localhost:8080/merchants/1",
+    "merchant": "http://localhost:8080/merchants/<ID>",
     "referencedTransaction": "http://localhost:8080/api/authorizeTransaction/<UUID>"
 }
 ```
