@@ -10,9 +10,6 @@ ext {
         org_lombok: [
                 ["org.projectlombok:lombok"]
         ],
-        org_openapitools: [
-                [ group: 'org.openapitools', name: 'jackson-databind-nullable', version: '0.2.1' ]
-        ],
         javax: [
                 [ group: 'javax.annotation', name: 'javax.annotation-api', version: '1.3.2' ],
                 [ group: 'javax.persistence', name: 'javax.persistence-api', version: '2.2' ],
@@ -20,7 +17,7 @@ ext {
                 [ group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' ],
                 [ group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8' ],
                 [ group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.8' ]
-        ],
+        ]
     ]
 
     test_modules = [

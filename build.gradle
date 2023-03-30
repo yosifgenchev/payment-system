@@ -11,8 +11,6 @@ plugins {
 	id 'org.springframework.boot' version '3.0.4'
 	id 'io.spring.dependency-management' version '1.1.0'
 	id 'checkstyle'
-	id "org.openapi.generator" version "6.2.1"
-	id "org.jetbrains.gradle.plugin.idea-ext" version "1.1.6"
 }
 
 group = 'com.paymentsystem'
@@ -30,7 +28,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 
 	implementation (
-			project.ext.modules.org_openapitools,
 			project.ext.modules.javax
 	)
 
@@ -53,42 +50,6 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-idea.project.settings {
-	taskTriggers {
-		beforeBuild tasks.getByName("openApiGenerate")
-		beforeRebuild tasks.getByName("openApiGenerate")
-		afterSync tasks.getByName("openApiGenerate")
-		beforeSync tasks.getByName("openApiGenerate")
-	}
-}
-
 springBoot {
 	mainClass = 'com.paymentsystem.app.Application'
-}
-
-openApiGenerate {
-	generatorName = "spring"
-	inputSpec = "${projectDir}/src/main/resources/api/api-spec.yaml"
-	outputDir = "${buildDir}/generated/open-api"
-	apiPackage = "com.paymentsystem.api"
-	invokerPackage = "com.paymentsystem.handler"
-	modelPackage = "com.paymentsystem.model"
-	modelNameSuffix = "Json"
-	configOptions = [
-			delegatePattern: "true"
-	]
-}
-
-
-compileJava {
-	dependsOn  tasks.openApiGenerate
-	source "${buildDir}/generated/open-api/src/main/java"
-}
-
-sourceSets {
-	main {
-		java {
-			srcDir "${buildDir.absolutePath}/generated/open-api/src/main/java"
-		}
-	}
 }
