@@ -17,6 +17,10 @@ ext {
                 [ group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final' ],
                 [ group: 'io.swagger.core.v3', name: 'swagger-annotations', version: '2.2.8' ],
                 [ group: 'io.swagger.core.v3', name: 'swagger-models', version: '2.2.8' ]
+        ],
+        org_liquibase: [
+                ["com.github.blagerweij:liquibase-sessionlock:1.5.0"],
+                ["org.liquibase:liquibase-core"]
         ]
     ]
 

@@ -1,3 +1,7 @@
+-- liquibase formatted sql
+
+-- changeset yosifgenchev:1
+-- Initialize tables in database
 CREATE TABLE payment_system.transaction
 (
     uuid character varying NOT NULL,
@@ -11,14 +15,7 @@ CREATE TABLE payment_system.transaction
     CONSTRAINT "fk_transaction_reference_id" FOREIGN KEY ("reference_id") REFERENCES "payment_system"."transaction"("uuid")
 );
 
-ALTER TABLE IF EXISTS payment_system.transaction
-    ADD COLUMN merchant_id bigint NOT NULL;
-ALTER TABLE IF EXISTS payment_system.transaction
-    ADD CONSTRAINT fk_merchant_id FOREIGN KEY (merchant_id)
-    REFERENCES payment_system.merchant (id) MATCH SIMPLE
-    ON UPDATE NO ACTION
-    ON DELETE NO ACTION
-    NOT VALID;
+
 
 
 CREATE TABLE payment_system.merchant
@@ -32,8 +29,7 @@ CREATE TABLE payment_system.merchant
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS payment_system.merchant
-    ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY;
+
 
 CREATE TABLE payment_system.merchant_transactions
 (
@@ -50,3 +46,29 @@ CREATE TABLE payment_system.merchant_transactions
         ON DELETE NO ACTION
         NOT VALID
 );
+
+-- changeset yosifgenchev:2
+-- Change transaction - merchant relation
+
+ALTER TABLE IF EXISTS payment_system.transaction
+    ADD COLUMN merchant_id bigint NOT NULL;
+ALTER TABLE IF EXISTS payment_system.transaction
+    ADD CONSTRAINT fk_merchant_id FOREIGN KEY (merchant_id)
+        REFERENCES payment_system.merchant (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+        NOT VALID;
+
+ALTER TABLE IF EXISTS payment_system.merchant
+    ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY;
+
+-- changeset yosifgenchev:3
+-- Change dtype column to transaction_type
+
+ALTER TABLE IF EXISTS payment_system.transaction DROP COLUMN IF EXISTS dtype;
+
+ALTER TABLE IF EXISTS payment_system.transaction
+    ADD COLUMN transaction_type character varying NOT NULL;
+
+ALTER TABLE IF EXISTS payment_system.transaction
+    RENAME transaction_type TO type;

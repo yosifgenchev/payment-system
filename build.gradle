@@ -28,7 +28,8 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 
 	implementation (
-			project.ext.modules.javax
+			project.ext.modules.javax,
+			project.ext.modules.org_liquibase
 	)
 
 	runtimeOnly project.ext.modules.org_postgresql
