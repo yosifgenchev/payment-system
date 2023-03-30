@@ -16,6 +16,7 @@
                     <table class="table table-bordered">
                         <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Description</th>
@@ -27,6 +28,7 @@
                         </thead>
                         <tbody>
                         <tr th:each="merchant : ${merchants}">
+                            <td th:text="${merchant.id}"></td>
                             <td th:text="${merchant.name}"></td>
                             <td th:text="${merchant.email}"></td>
                             <td th:text="${merchant.description}"></td>
