@@ -22,6 +22,8 @@ repositories {
 }
 
 dependencies {
+	//  Temporary explicit version to fix Thymeleaf bug
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6:3.1.1.RELEASE'
 	implementation (
 			project.ext.modules.org_springframework_starters,
 			project.ext.modules.javax,
