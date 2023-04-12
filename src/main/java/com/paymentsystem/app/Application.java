@@ -1,8 +1,12 @@
 package com.paymentsystem.app;
 
 import com.paymentsystem.handlers.TransactionEventHandler;
+import com.paymentsystem.validation.AuthorizeTransactionValidator;
+import com.paymentsystem.validation.ChargeTransactionValidator;
 import com.paymentsystem.validation.MerchantDeletionValidator;
-import com.paymentsystem.validation.TransactionsValidator;
+import com.paymentsystem.validation.RefundTransactionValidator;
+import com.paymentsystem.validation.ReversalTransactionValidator;
+import com.paymentsystem.validation.TransactionValidator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -22,7 +26,12 @@ public class Application implements RepositoryRestConfigurer {
     @Override
     public void configureValidatingRepositoryEventListener(
             ValidatingRepositoryEventListener v) {
-        v.addValidator("beforeCreate", new TransactionsValidator());
+        v.addValidator("beforeCreate", new TransactionValidator());
+        v.addValidator("beforeCreate", new AuthorizeTransactionValidator());
+        v.addValidator("beforeCreate", new ChargeTransactionValidator());
+        v.addValidator("beforeCreate", new RefundTransactionValidator());
+        v.addValidator("beforeCreate", new ReversalTransactionValidator());
+
         v.addValidator("beforeDelete", new MerchantDeletionValidator());
     }
 
