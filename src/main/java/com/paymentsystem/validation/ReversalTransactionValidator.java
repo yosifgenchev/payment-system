@@ -5,10 +5,9 @@ import com.paymentsystem.model.Transaction;
 import com.paymentsystem.model.TransactionType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
 
 @Slf4j
-public class ReversalTransactionValidator implements Validator {
+public class ReversalTransactionValidator extends AbstractReferrableTransactionValidator {
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -18,7 +17,14 @@ public class ReversalTransactionValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         ReversalTransaction transaction = (ReversalTransaction) target;
-        Transaction referencedTransaction = transaction.getReferencedTransaction();
+
+        validatePresenceOfReferencedTransaction(transaction, errors);
+
+        if (isReferencedTransactionInvalid(transaction)) {
+            transaction.setStatus("error");
+        }
+
+        Transaction referencedTransaction = transaction.getAuthorizeTransaction();
 
         if (referencedTransaction != null && referencedTransaction.getType() != TransactionType.AUTHORIZE) {
             String message = String.format("REVERSAL transaction type should not reference transaction from type %s", referencedTransaction.getType().toString());
