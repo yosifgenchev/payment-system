@@ -4,7 +4,7 @@ import com.paymentsystem.model.AuthorizeTransaction;
 import com.paymentsystem.model.ChargeTransaction;
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.repository.TransactionRepository;
-import com.paymentsystem.service.TransactableService;
+import com.paymentsystem.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -18,9 +18,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-class TransactableServiceImplTest {
+class TransactionServiceImplTest {
 
-    TransactableService transactableService;
+    TransactionService transactionService;
 
     @Mock
     TransactionRepository transactionRepositoryMock;
@@ -28,7 +28,7 @@ class TransactableServiceImplTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        transactableService = new TransactableServiceImpl(transactionRepositoryMock);
+        transactionService = new TransactionServiceImpl(transactionRepositoryMock);
     }
 
     @Test
@@ -37,7 +37,7 @@ class TransactableServiceImplTest {
         Transaction transactionMock = new AuthorizeTransaction();
         when(transactionRepositoryMock.findTransactionByUuid(uuid)).thenReturn(Optional.of(transactionMock));
 
-        Transaction transaction = transactableService.findTransactionByUuid(uuid);
+        Transaction transaction = transactionService.findTransactionByUuid(uuid);
 
         assertNotNull(transaction);
         assertEquals(transactionMock, transaction);
@@ -49,7 +49,7 @@ class TransactableServiceImplTest {
         Transaction transaction2 = new ChargeTransaction();
         when(transactionRepositoryMock.findAll()).thenReturn(List.of(transaction1, transaction2));
 
-        List<Transaction> transactions = transactableService.findAll();
+        List<Transaction> transactions = transactionService.findAll();
 
         assertNotNull(transactions);
         assertEquals(2, transactions.size());
