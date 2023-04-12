@@ -2,7 +2,7 @@ package com.paymentsystem.service.impl;
 
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.repository.TransactionRepository;
-import com.paymentsystem.service.TransactableService;
+import com.paymentsystem.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class TransactableServiceImpl implements TransactableService {
+public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactableRepository;
     @Override
@@ -26,6 +26,13 @@ public class TransactableServiceImpl implements TransactableService {
     @Override
     public List<Transaction> findAll() {
         return transactableRepository.findAll();
+    }
+
+    @Override
+    public void changeTransactionStatus(String transactionUUID, String status) {
+        Transaction t = findTransactionByUuid(transactionUUID);
+        t.setStatus(status);
+        save(t);
     }
 
     @Override
