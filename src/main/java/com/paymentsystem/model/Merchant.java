@@ -17,7 +17,6 @@ import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -108,18 +107,5 @@ public class Merchant {
                 ", totalTransactionSum=" + totalTransactionSum +
                 ", transactions=" + transactions +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Merchant merchant = (Merchant) o;
-        return id == merchant.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 }
