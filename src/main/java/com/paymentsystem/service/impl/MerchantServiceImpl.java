@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -23,7 +24,12 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
-    public void updateMerchantData(Long id) {
+    public List<Merchant> findAll() {
+        return merchantRepository.findAll();
+    }
+
+    @Override
+    public void updateMerchantTransactionsData(Long id) {
         Optional<Merchant> merchantOptional = findById(id);
 
         if (merchantOptional.isEmpty()) {
@@ -44,7 +50,24 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public void updateMerchant(Long id, Merchant updatedMerchant) {
+        Merchant merchant = findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+
+        merchant.setName(updatedMerchant.getName());
+        merchant.setEmail(updatedMerchant.getEmail());
+        merchant.setDescription(updatedMerchant.getDescription());
+        merchant.setStatus(updatedMerchant.getStatus());
+
+        save(merchant);
+    }
+
+    @Override
     public void save(Merchant merchant) {
         merchantRepository.save(merchant);
+    }
+
+    @Override
+    public void delete(Merchant merchant) {
+        merchantRepository.delete(merchant);
     }
 }
