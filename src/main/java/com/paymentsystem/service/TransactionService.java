@@ -6,8 +6,6 @@ import java.util.List;
 
 public interface TransactionService {
 
-    Transaction getTransactionByReferredTransactionUUID(String referred_transaction_uuid);
-
     Transaction findTransactionByUuid(String uuid);
 
     List<Transaction> findAll();
@@ -15,5 +13,11 @@ public interface TransactionService {
     void changeTransactionStatus(String transactionUUID, String status);
 
     void save(Transaction t);
+
+    void delete(Transaction t);
+
+    void deleteOldTransactions();
+
+    void modifyReferencedTransactionStatusIfNeeded(Transaction t);
 
 }
