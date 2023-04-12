@@ -72,3 +72,17 @@ ALTER TABLE IF EXISTS payment_system.transaction
 
 ALTER TABLE IF EXISTS payment_system.transaction
     RENAME transaction_type TO type;
+
+-- changeset yosifgenchev:4
+-- Drop not used table
+DROP TABLE IF EXISTS payment_system.merchant_transactions;
+
+-- changeset yosifgenchev:5
+-- Rename transaction table to transactions
+ALTER TABLE IF EXISTS payment_system.transaction
+    RENAME TO transactions;
+
+-- changeset yosifgenchev:6
+-- Rename merchant table to merchants
+ALTER TABLE IF EXISTS payment_system.merchant
+    RENAME TO merchants;

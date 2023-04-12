@@ -26,7 +26,7 @@ import java.util.stream.Stream;
 @Setter
 @NoArgsConstructor
 @Entity
-@Table(name = "merchant")
+@Table(name = "merchants")
 public class Merchant {
 
     @Id

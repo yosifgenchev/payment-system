@@ -19,17 +19,17 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.hibernate.Hibernate;
+import lombok.ToString;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Getter
 @Setter
+@ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "transaction")
+@Table(name = "transactions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
@@ -39,7 +39,7 @@ import java.util.Objects;
         @JsonSubTypes.Type(value = ReversalTransaction.class, name = "REVERSAL")
 
 })
-public abstract class Transaction implements Transactable {
+public abstract class Transaction {
 
     @Id
     @Column(name = "uuid")
@@ -67,6 +67,7 @@ public abstract class Transaction implements Transactable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
+    @ToString.Exclude
     private Merchant merchant;
 
     public Transaction(Transaction referencedTransaction, BigDecimal amount, String customerEmail, String customerPhone, String status) {
@@ -77,28 +78,6 @@ public abstract class Transaction implements Transactable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-                "uuid='" + uuid + '\'' +
-                ", amount=" + amount +
-                ", customerEmail='" + customerEmail + '\'' +
-                ", customerPhone='" + customerPhone + '\'' +
-                ", status='" + status + '\'' +
-                ", referredTransaction=" + referencedTransaction +
-                '}';
-    }
+    public abstract TransactionType getType();
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Transaction that = (Transaction) o;
-        return uuid != null && Objects.equals(uuid, that.uuid);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(uuid);
-    }
 }
