@@ -12,22 +12,26 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "transactions")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -47,6 +51,10 @@ public abstract class Transaction {
     @UuidGenerator
     private String uuid;
 
+    @CreationTimestamp
+    @Column(name="created_datetime", columnDefinition = "TIMESTAMP")
+    private LocalDateTime createdDateTime;
+
     @Column(name = "amount")
     private BigDecimal amount;
 
@@ -61,23 +69,22 @@ public abstract class Transaction {
     @Column(name = "status", nullable = false)
     private String status;
 
-    @OneToOne(targetEntity = Transaction.class)
-    @JoinColumn(name = "reference_id")
-    private Transaction referencedTransaction;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "merchant_id")
     @ToString.Exclude
     private Merchant merchant;
 
-    public Transaction(Transaction referencedTransaction, BigDecimal amount, String customerEmail, String customerPhone, String status) {
-        this.referencedTransaction = referencedTransaction;
-        this.amount = amount;
-        this.customerEmail = customerEmail;
-        this.customerPhone = customerPhone;
-        this.status = status;
+    public abstract TransactionType getType();
+
+    public boolean isModifyingStatus() {
+        return false;
     }
 
-    public abstract TransactionType getType();
+    public Optional<Transaction> getTransactionToBeModified() {
+        return Optional.empty();
+    }
+
+    public void makeStatusTransition() {
+    }
 
 }

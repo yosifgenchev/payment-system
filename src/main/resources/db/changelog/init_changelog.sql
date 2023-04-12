@@ -86,3 +86,8 @@ ALTER TABLE IF EXISTS payment_system.transaction
 -- Rename merchant table to merchants
 ALTER TABLE IF EXISTS payment_system.merchant
     RENAME TO merchants;
+
+-- changeset yosifgenchev:7
+-- Add created_date column to transactions
+ALTER TABLE IF EXISTS payment_system.transactions
+    ADD COLUMN created_datetime timestamp NOT NULL DEFAULT now();

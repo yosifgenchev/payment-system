@@ -13,4 +13,11 @@ public class AuthorizeTransaction extends Transaction {
     public TransactionType getType() {
         return TransactionType.AUTHORIZE;
     }
+
+
+    @Override
+    public void makeStatusTransition() {
+        setStatus("reversed");
+    }
+
 }
