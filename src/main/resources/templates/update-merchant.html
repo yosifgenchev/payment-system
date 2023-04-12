@@ -10,8 +10,8 @@
     <div class="row">
         <div class="col-xs-12">
             <form action="#"
-                  th:action="@{/update/{id}(id=${user.id})}"
-                  th:object="${user}"
+                  th:action="@{/update/{id}(id=${merchant.id})}"
+                  th:object="${merchant}"
                   method="post">
                 <label for="name">Name</label>
                 <input type="text" th:field="*{name}" id="name" placeholder="Name">
@@ -19,7 +19,13 @@
                 <label for="email">Email</label>
                 <input type="text" th:field="*{email}" id="email" placeholder="Email">
                 <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                <input type="submit" value="Update User">
+                <label for="email">Description</label>
+                <input type="text" th:field="*{description}" id="description" placeholder="Description">
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+                <label for="email">Status</label>
+                <input type="text" th:field="*{status}" id="status" placeholder="Status">
+                <span th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></span>
+                <input type="submit" value="Update merchant">
             </form>
         </div>
     </div>
