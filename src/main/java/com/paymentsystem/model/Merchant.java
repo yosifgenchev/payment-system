@@ -58,7 +58,6 @@ public class Merchant {
 
     public BigDecimal getChargeTransactionsAmount() {
         return getTransactionsAmount(getApprovedChargeTransactions());
-
     }
 
     public BigDecimal getRefundTransactionsAmount() {
@@ -98,14 +97,16 @@ public class Merchant {
 
     @Override
     public String toString() {
-        return "Merchant{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", email='" + email + '\'' +
-                ", status=" + status +
-                ", totalTransactionSum=" + totalTransactionSum +
-                ", transactions=" + transactions +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Merchant{")
+                .append("id=").append(id)
+                .append(", name='").append(name).append('\'')
+                .append(", description='").append(description).append('\'')
+                .append(", email='").append(email).append('\'')
+                .append(", status=").append(status)
+                .append(", totalTransactionSum=").append(totalTransactionSum)
+                .append(", transactions=").append(transactions)
+                .append('}');
+        return sb.toString();
     }
 }
