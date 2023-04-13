@@ -1,5 +1,6 @@
 package com.paymentsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.Column;
@@ -76,14 +77,17 @@ public abstract class Transaction {
 
     public abstract TransactionType getType();
 
+    @JsonIgnore
     public boolean isModifyingStatus() {
         return false;
     }
 
+    @JsonIgnore
     public Optional<Transaction> getTransactionToBeModified() {
         return Optional.empty();
     }
 
+    @JsonIgnore
     public void makeStatusTransition() {
     }
 
