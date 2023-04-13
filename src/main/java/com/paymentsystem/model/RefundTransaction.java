@@ -6,12 +6,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Optional;
 
 @Entity
 @DiscriminatorValue("REFUND")
 @NoArgsConstructor
+@Setter
 @Getter
 public class RefundTransaction extends Transaction implements Referrable {
 

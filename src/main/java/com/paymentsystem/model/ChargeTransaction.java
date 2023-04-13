@@ -6,11 +6,13 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @DiscriminatorValue("CHARGE")
 @NoArgsConstructor
 @Getter
+@Setter
 public class ChargeTransaction extends Transaction implements Referrable {
 
     @OneToOne(targetEntity = Transaction.class)

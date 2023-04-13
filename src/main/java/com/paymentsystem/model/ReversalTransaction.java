@@ -7,12 +7,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Optional;
 
 @Entity
 @DiscriminatorValue("REVERSAL")
 @NoArgsConstructor
+@Setter
 @Getter
 public class ReversalTransaction extends Transaction implements Referrable {
 
