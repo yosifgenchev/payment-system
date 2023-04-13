@@ -1,5 +1,6 @@
 package com.paymentsystem.validation;
 
+import com.paymentsystem.model.ChargeTransaction;
 import com.paymentsystem.model.RefundTransaction;
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.model.TransactionType;
@@ -24,7 +25,7 @@ public class RefundTransactionValidator extends AbstractReferrableTransactionVal
             transaction.setStatus("error");
         }
 
-        Transaction referencedTransaction = transaction.getChargeTransaction();
+        ChargeTransaction referencedTransaction = transaction.getChargeTransaction();
 
         if (referencedTransaction != null && referencedTransaction.getType() != TransactionType.CHARGE) {
             String message = String.format("REFUND transaction type should not reference transaction from type %s", referencedTransaction.getType().toString());

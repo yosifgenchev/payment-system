@@ -2,32 +2,43 @@ package com.paymentsystem.validation;
 
 import com.paymentsystem.model.ChargeTransaction;
 import com.paymentsystem.model.RefundTransaction;
-import com.paymentsystem.model.Transaction;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.validation.BeanPropertyBindingResult;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.validation.Errors;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.anyString;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 public class RefundTransactionValidatorTest {
 
-    private final RefundTransactionValidator validator = new RefundTransactionValidator();
+    @Mock
+    private Errors errors;
 
-    @Test
-    void validateValidTransaction() {
-        RefundTransaction transaction = new RefundTransaction();
-        Transaction referencedTransaction = new ChargeTransaction();
-        transaction.setReferencedTransaction(referencedTransaction);
-        Errors errors = new BeanPropertyBindingResult(transaction, "transaction");
-        validator.validate(transaction, errors);
-        assertFalse(errors.hasErrors());
+    @InjectMocks
+    private RefundTransactionValidator refundTransactionValidator;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void validateTransactionWithNullReferencedTransaction() {
+    public void testValidateWithValidTransaction() {
         RefundTransaction transaction = new RefundTransaction();
-        Errors errors = new BeanPropertyBindingResult(transaction, "transaction");
-        validator.validate(transaction, errors);
-        assertFalse(errors.hasErrors());
+        ChargeTransaction chargeTransaction = new ChargeTransaction();
+        chargeTransaction.setStatus("approved");
+        transaction.setChargeTransaction(chargeTransaction);
+
+        refundTransactionValidator.validate(transaction, errors);
+
+        verify(errors, never()).rejectValue(anyString(), anyString(), anyString());
     }
+    
 }

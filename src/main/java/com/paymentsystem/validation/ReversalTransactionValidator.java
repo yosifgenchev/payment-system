@@ -1,5 +1,6 @@
 package com.paymentsystem.validation;
 
+import com.paymentsystem.model.AuthorizeTransaction;
 import com.paymentsystem.model.ReversalTransaction;
 import com.paymentsystem.model.Transaction;
 import com.paymentsystem.model.TransactionType;
@@ -24,7 +25,7 @@ public class ReversalTransactionValidator extends AbstractReferrableTransactionV
             transaction.setStatus("error");
         }
 
-        Transaction referencedTransaction = transaction.getAuthorizeTransaction();
+        AuthorizeTransaction referencedTransaction = transaction.getAuthorizeTransaction();
 
         if (referencedTransaction != null && referencedTransaction.getType() != TransactionType.AUTHORIZE) {
             String message = String.format("REVERSAL transaction type should not reference transaction from type %s", referencedTransaction.getType().toString());
