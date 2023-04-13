@@ -27,7 +27,8 @@ dependencies {
 	implementation (
 			project.ext.modules.org_springframework_starters,
 			project.ext.modules.javax,
-			project.ext.modules.org_liquibase
+			project.ext.modules.org_liquibase,
+			project.ext.modules.com_opencsv
 	)
 
 	runtimeOnly project.ext.modules.org_postgresql

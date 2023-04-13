@@ -29,6 +29,10 @@ ext {
         org_liquibase: [
                 ["com.github.blagerweij:liquibase-sessionlock:1.5.0"],
                 ["org.liquibase:liquibase-core"]
+        ],
+        com_opencsv: [
+                ['com.opencsv:opencsv:5.7.1'],
+                [group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4']
         ]
     ]
 
