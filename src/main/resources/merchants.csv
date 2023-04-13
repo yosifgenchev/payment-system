@@ -1,0 +1,3 @@
+username,password,name,description,email,status
+merchant2,password,merchant2,merchant2 desc,merchant2@test.com,active
+merchant3,password,merchant3,merchant3 desc,merchant3@test.com,inactive
