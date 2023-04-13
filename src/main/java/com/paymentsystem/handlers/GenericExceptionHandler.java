@@ -5,17 +5,14 @@ import org.springframework.data.rest.core.RepositoryConstraintViolationException
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.stream.Collectors;
 
-@Slf4j
 @ControllerAdvice
 public class GenericExceptionHandler extends
         ResponseEntityExceptionHandler {
@@ -29,12 +26,5 @@ public class GenericExceptionHandler extends
 
         return new ResponseEntity<Object>(errors, new HttpHeaders(),
                 HttpStatus.PARTIAL_CONTENT);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void handle(HttpMessageNotReadableException e) {
-        log.warn("Returning HTTP 400 Bad Request", e);
-        throw e;
     }
 }
